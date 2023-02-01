@@ -12,7 +12,7 @@ for _ in 0..<N {
   board.append(readLine()!.split(separator:" ").map { Int(String($0))!})
 }
 
-let dx = [-1, 0, 1, 0]
+let dx = [-1, 0, 1, 0] //차례대로 북, 동, 남, 서
 let dy = [0, 1, 0, -1]
 
 func rotate() {
