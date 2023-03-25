@@ -1,12 +1,15 @@
 var input = ""
+var flag = false
 
 while true {
+  flag = false
   input = readLine()!
 
   if input == "." {
     break
   }
-  var stack = []
+  
+  var stack:[String] = []
   let splited = input.filter { "([])".contains($0) }
 
   for i in splited {
@@ -14,26 +17,28 @@ while true {
       stack.append("(")
     }
     else if i==")" {
-      if stack.isEmpty || stack.removeLast() != "(" {
+      if (stack.isEmpty || stack.removeLast() != "(") && !flag {
         print("no")
-        continue
+        flag = true
       }
     }
     else if i=="[" {
        stack.append("[")
     }
     else if i=="]" {
-      if stack.isEmpty || stack.removeLast() != "(" {
-        print("yes")
-        continue
+      if (stack.isEmpty || stack.removeLast() != "[") && !flag {
+        print("no")
+        flag = true
       }
     }
   }
 
-  if stack.isEmpty {
-    print("yes")
-  }
-  else{
-    print("no")
+  if !flag {
+    if stack.isEmpty {
+      print("yes")
+    }
+    else {
+      print("no")
+    }
   }
 }
