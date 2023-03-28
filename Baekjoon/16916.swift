@@ -1,0 +1,1 @@
+print(readLine()!.contains(readLine()!) ? 1:0)
