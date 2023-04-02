@@ -15,7 +15,7 @@ func rotateRight(_ array:[[Int]], _ count: Int) {
       copied[i][i] = array[(n+1)/2-1][i]
       copied[(n+1)/2-1][i] = array[n-i-1][i]
     }
-    array = copied
+    array = copied //원래 배열을 한번 더 돌려야하므로
   }
   
   for i in 0..<n {

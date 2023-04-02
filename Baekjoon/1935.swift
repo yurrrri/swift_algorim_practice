@@ -30,3 +30,37 @@ for i in input {
 }
 
 print(String(format: "%.2f", nums.first!))
+
+// import Foundation
+
+// let N = Int(readLine()!)!
+// let input = readLine()!
+// var stack:[Double] = []
+// var numbers:[Double] = []
+
+// for _ in 0..<N {
+//   numbers.append(Double(readLine()!)!)
+// }
+
+// for i in input {
+//   switch i {
+//     case "*":
+//     stack.append(stack.removeLast() * stack.removeLast())
+//     case "+":
+//     stack.append(stack.removeLast() + stack.removeLast())
+//     case "/":
+//     let first = stack.removeLast()
+//     let second = stack.removeLast()
+  
+//     stack.append(second/first)
+//     case "-":
+//     let first = stack.removeLast()
+//     let second = stack.removeLast()
+  
+//     stack.append(second-first)
+//     default:
+//     stack.append(numbers[Int(i.asciiValue!-Character("A").asciiValue!)])
+//   }
+// }
+
+// print(String(format: "%.2f", stack.removeLast()))
