@@ -1,9 +1,9 @@
-func dfs(_ graph:[[Int]], _ v:Int){
-  //현재 노드를 방문 처리
+ func dfs(_ graph:[[Int]], _ v:Int){
+  //1. 현재 노드를 방문 처리 후 출력
   visited[v] = true
-  print("\(v) ")
+  print(v, terminator:" ")
 
-  for i in graph[v] {
+  for i in graph[v] { //2. 인접 노드 중 방문하지 않은 노드들에 대해 탐색
     if !visited[i] {
       dfs(graph, i)
     }
@@ -21,6 +21,8 @@ let graph = [
   [2, 6, 8],
   [1, 7]
 ]
+//입력받기 위한 2차월 빈 문자열
+//var graph:[[Int]] = Array(repeating:[], count:N+1)
 
 var visited = Array(repeating:false, count:9)
 

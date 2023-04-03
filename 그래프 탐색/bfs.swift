@@ -1,15 +1,15 @@
 func bfs(_ graph:[[Int]], _ v:Int){
-  queue = [v]
-  //현재 노드를 방문 처리
+  //1. 시작노드를 큐에 넣고 방문처리
+  var q = [v]
   visited[v] = true
 
-  while !queue.isEmpty {
-    a = queue.removeFirst()
-    print("\(a) ")
+  while !q.isEmpty {
+    let v = q.removeFirst() //2. 선입선출 (가까운 노드부터 방문하므로)
+    print(v, terminator:" ") //방문한 노드 출력
 
-    for i in graph[a]{
-      if !visited[i]{
-        queue.append(i)
+    for i in graph[v]{
+      if !visited[i]{ //3. 인접한 노드 중 방문하지 않은 노드들 모두 큐에 넣고 방문처리
+        q.append(i)
         visited[i] = true
       }
     }
@@ -27,9 +27,9 @@ let graph = [
   [2, 6, 8],
   [1, 7]
 ]
+//입력받기 위한 2차월 빈 문자열
+//var graph:[[Int]] = Array(repeating:[], count:N+1)
 
 var visited = Array(repeating:false, count:9)
-var queue:[Int] = []
-var a = 0
 
 bfs(graph, 1)
