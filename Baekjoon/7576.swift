@@ -28,7 +28,7 @@ func findTomato(_ board: [[Int]]) {
 }
 
 func bfs() {
-  while idx < q.count{
+  while idx < q.count{ //BFS에서 시간줄이는 방법 -> removeFirst 말고 배열로 접근
     let (x, y) = q[idx]
     idx += 1
 
@@ -47,15 +47,10 @@ func bfs() {
 
 findTomato(board)
 bfs()
-var max = 0
 
-for i in 0..<m {
-  for j in 0..<n {
-    if board[i][j] == 0 {
-      print(-1)
-      exit(0)
-    }
-  }
+if board.flatMap { $0 }.contains(0) { //이게 반복문으로 찾는거보다 시간많이걸림
+  print(-1)
 }
-
-print(board[lastIdx.0][lastIdx.1]-1)
+else{
+  print(board[lastIdx.0][lastIdx.1]-1)
+}
