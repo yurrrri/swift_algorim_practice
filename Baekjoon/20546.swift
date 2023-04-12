@@ -7,16 +7,15 @@ var junhyun = (n, 0) //(현금, 주식 수)
 var sungmin = (n, 0) //(현금, 주식 수)
 
 for i in 0..<money_list.count {
-  if money_list[i] <= n {
-    junhyun.1 = n/money_list[i]
-    junhuyn.0 -= (money_list[i]*junhyun.1)
-  }
+  junhyun.1 += junhyun.0 / money_list[i]
+  junhyun.0 = junhyun.0 % money_list[i]
 
-  if i>=2 {
-    if money_list[i-2] > money_list[i-1] && money_list[i-1] > money_list[i] {
-      sungmin.1 += n/money_list[i]
-      sungmin.0 -= (money_list[i]*sungmin.1)
-    } else if money_list[i-2] < money_list[i-1] && money_list[i-1] < money_list[i] {
+  if i>=3 {
+    if money_list[i-3] > money_list[i-2] && money_list[i-2] > money_list[i-1] && money_list[i-1] > money_list[i] { //매수
+        let n = sungmin.0/money_list[i]
+        sungmin.1 += n
+        sungmin.0 = sungmin.0 % money_list[i]
+    } else if money_list[i-3] < money_list[i-2] && money_list[i-2] < money_list[i-1] && money_list[i-1] < money_list[i] {
       sungmin.0 += (money_list[i]*sungmin.1)
       sungmin.1 = 0 //전량 매도
     }
