@@ -1,24 +1,29 @@
 import Foundation
 
-let s = readLine()!.map { String($0) }
-var t = readLine()!.map { String($0) }
+let s = readLine()!
+var t = readLine()!
 
-for _ in 0..<t.count {
-  if t.last! == "A" {
-    let removed = t.removeLast()
-    if t.reversed() == s {
-      print(1)
-      exit(0)
-    }
-  } else {
-    let reversed() = t.reversed()
-    let _ = t.removeLast()
-
-    if t.reversed() == s {
-      print(1)
-      exit(0)
-    }
+func backtrack(_ str: String) {
+  if str == s {
+    print(1)
+    exit(0)
+  }
+  
+  if str.count <= s.count { //s보다 크기가 작아지면 return
+    return
+  }
+  
+  if str.last! == "A" {
+    var tmp = str
+    tmp.removeLast()
+    backtrack(tmp)
+  } else if str.first! == "B" {
+    var tmp = str
+    tmp = String(tmp.reversed())
+    tmp.removeFirst()
+    backtrack(tmp)
   }
 }
 
+backtrack(t)
 print(0)

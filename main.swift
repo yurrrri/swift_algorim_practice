@@ -1,19 +1,29 @@
-let input = readLine()!.split(separator: " ").map{Int(String($0))!}
-let n = input[0], s = input[1]
-let num = readLine()!.split(separator: " ").map{Int(String($0))!}
-var visited = Array(repeating: false, count: n)
+import Foundation
 
-var answer = 0
+let s = readLine()!
+var t = readLine()!
 
-func dfs(_ idx: Int, _ depth: Int, _ sum: Int) {
-    if sum == s && depth > 0 { //초기에 0임을 방지하기 위해 (합이 0인 경우가 있으니까)
-      answer += 1
-    }
-    
-    for i in idx..<n { //조합을 거치면서 더해나감
-      dfs(i + 1, depth + 1, sum + num[i])
-    }
+func backtrack(_ str: String) {
+  if str == s {
+    print(1)
+    exit(0)
+  }
+  
+  if str.count <= s.count { //s보다 크기가 작아지면 return
+    return
+  }
+  
+  if str.last! == "A" {
+    var tmp = str
+    tmp.removeLast()
+    backtrack(tmp)
+  } else if str.first! == "B" {
+    var tmp = str
+    tmp = String(tmp.reversed())
+    tmp.removeFirst()
+    backtrack(tmp)
+  }
 }
 
-dfs(0, 0, 0)
-print(answer)
+backtrack(t)
+print(0)
