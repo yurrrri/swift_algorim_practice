@@ -3,7 +3,7 @@ import Foundation
 let s = readLine()!
 var t = readLine()!
 
-func backtrack(_ str: String) {
+func backtrack(_ str: String) {  
   if str == s {
     print(1)
     exit(0)
@@ -17,10 +17,12 @@ func backtrack(_ str: String) {
     var tmp = str
     tmp.removeLast()
     backtrack(tmp)
-  } else if str.first! == "B" {
+  } 
+  
+  if str.first! == "B" {
     var tmp = str
     tmp = String(tmp.reversed())
-    tmp.removeFirst()
+    tmp.removeLast()
     backtrack(tmp)
   }
 }
