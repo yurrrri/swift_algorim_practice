@@ -10,24 +10,26 @@ let input = readLine()!.split(separator:" ").map { Int(String($0))! }
 let n = input[0], m = input[1] //n: 세로 m: 가로
 
 var board:[[Int]] = []
+var copied:[[Int]] = []
+
 var answer = 0
 
 for _ in 0..<n {
   board.append(readLine()!.split(separator:" ").map { Int(String($0))! })
 }
 
-func dfs(_ v: (Int, Int), _ board: inout [[Int]]) {
+func dfs(_ v: (Int, Int)) {
   let (x, y) = v
-
+  copied[x][y] = 2
+  
   for i in 0..<4 {
     nx = x + dx[i]
     ny = y + dy[i]
-
-    guard 0..<n ~= nx && 0..<m ~= ny else { return }
-
-    if board[nx][ny] == 0 {
-      board[nx][ny] = 2
-      dfs((nx, ny), &board)
+    
+    guard 0..<n ~= nx && 0..<m ~= ny else { continue } //return문으로 안쓰게 조심!!!!
+    
+    if copied[nx][ny] == 0 {
+      dfs((nx, ny))
     }
   }
 }
@@ -45,32 +47,31 @@ func countSafeArea(_ board:[[Int]]) -> Int {
   return count
 }
 
-func backtracking(_ depth: Int, _ board:inout [[Int]]) {
+func backtracking(_ depth: Int) {
   if depth == 3 {
-    var copied = board
+    copied = board
     for i in 0..<n {
       for j in 0..<m {
         if copied[i][j] == 2 {
-          dfs((i, j), &copied) //dfs 진행 후
+          dfs((i, j)) //dfs 진행 후
         }
       }
     }
-
     answer = max(answer, countSafeArea(copied))
     
     return
   }
-
+  
   for i in 0..<n {
     for j in 0..<m {
       if board[i][j] == 0 {
         board[i][j] = 1
-        backtracking(depth+1, &board)
+        backtracking(depth+1)
         board[i][j] = 0
       }
     }
   }
 }
 
-backtracking(0, &board)
+backtracking(0)
 print(answer)
