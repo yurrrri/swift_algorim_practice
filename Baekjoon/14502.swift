@@ -10,17 +10,14 @@ let input = readLine()!.split(separator:" ").map { Int(String($0))! }
 let n = input[0], m = input[1] //n: 세로 m: 가로
 
 var board:[[Int]] = []
-var copied:[[Int]] = []
-
 var answer = 0
 
 for _ in 0..<n {
   board.append(readLine()!.split(separator:" ").map { Int(String($0))! })
 }
 
-func dfs(_ v: (Int, Int)) {
+func dfs(_ v: (Int, Int), _ board: inout [[Int]]) {
   let (x, y) = v
-  copied[x][y] = 2
 
   for i in 0..<4 {
     nx = x + dx[i]
@@ -28,8 +25,9 @@ func dfs(_ v: (Int, Int)) {
 
     guard 0..<n ~= nx && 0..<m ~= ny else { return }
 
-    if copied[nx][ny] == 0 {
-      dfs((nx, ny))
+    if board[nx][ny] == 0 {
+      board[nx][ny] = 2
+      dfs((nx, ny), &board)
     }
   }
 }
@@ -47,14 +45,13 @@ func countSafeArea(_ board:[[Int]]) -> Int {
   return count
 }
 
-func backtracking(_ depth: Int) {
+func backtracking(_ depth: Int, _ board:inout [[Int]]) {
   if depth == 3 {
-    copied = board
-
+    var copied = board
     for i in 0..<n {
       for j in 0..<m {
         if copied[i][j] == 2 {
-          dfs((i, j)) //dfs 진행 후
+          dfs((i, j), &copied) //dfs 진행 후
         }
       }
     }
@@ -68,12 +65,12 @@ func backtracking(_ depth: Int) {
     for j in 0..<m {
       if board[i][j] == 0 {
         board[i][j] = 1
-        backtracking(depth+1)
+        backtracking(depth+1, &board)
         board[i][j] = 0
       }
     }
   }
 }
 
-backtracking(0)
+backtracking(0, &board)
 print(answer)
