@@ -1,3 +1,4 @@
+//이후에 조합으로도 풀면 좋을듯. 시간이 꽤 많이 걸림 (백트래킹)
 import Foundation
 
 var dx = [-1, 1, 0, 0]
@@ -47,16 +48,25 @@ func countSafeArea(_ board:[[Int]]) -> Int {
   return count
 }
 
+var temp:[(Int, Int)] = []
+
 func backtracking(_ depth: Int) {
   if depth == 3 {
+    temp = []
+    
     copied = board
     for i in 0..<n {
       for j in 0..<m {
         if copied[i][j] == 2 {
-          dfs((i, j)) //dfs 진행 후
+          temp.append((i, j))
         }
       }
     }
+
+    for (x, y) in temp {
+      dfs((x, y))
+    }
+    
     answer = max(answer, countSafeArea(copied))
     
     return
