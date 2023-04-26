@@ -51,34 +51,27 @@ func bfs(){
 }
 
 bfs()
-print(copied)
 
-var temp:[[String]] = []
+var min_row = Int.max //섬이 시작되는 시작 행
+var max_row = 0 //끝나는 행
+var min_col = Int.max //섬이 시작되는 시작 열
+var max_col = 0 //끝나는 열
 
-//가로가 모두 "." 인 부분 날리기
-for i in 0..<r{
-  if copied[i].allSatisfy { $0 == "." } {
-    continue
-  }
-  temp.append(copied[i])
-}
+for i in 0..<r {
+  for j in 0..<c {
+    if copied[i][j] == "X" {
+      min_row = min(min_row, i)
+      max_row = max(max_row, i)
 
-//세로가 모두 "."인 부분 날리기
-var min_val = Int.max
-var max_val = 0
-
-for i in 0..<temp.count {
-  for j in 0..<temp[0].count {
-    if temp[i][j] == "X" {
-      min_val = min(min_val, j)
-      max_val = max(max_val, j)
+      min_col = min(min_col, j)
+      max_col = max(max_col, j)
     }
   }
 }
 
-for i in 0..<temp.count {
-  for j in min_val...max_val {
-    print(temp[i][j], terminator:"")
+for i in min_row...max_row {
+  for j in min_col...max_col {
+    print(copied[i][j], terminator:"")
   }
   print()
 }
