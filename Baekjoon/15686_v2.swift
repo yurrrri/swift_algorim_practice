@@ -14,69 +14,67 @@ for i in 0..<n {
   board.append(readLine()!.split(separator:" ").map { Int(String($0))! })
 }
 
+var copied:[[Int]] = []
+
 var chicken:[(Int, Int)] = []
 var house:[(Int, Int)] = []
 
 for i in 0..<n {
   for j in 0..<n {
-    if board[i][j] == 2 { //치킨 좌표 저장
+    if board[i][j] == 2 {
       chicken.append((i, j))
-    } else if board[i][j] == 1 { //집 좌표 저장
+      board[i][j] = 0
+    } else if board[i][j] == 1 {
       house.append((i, j))
+      board[i][j] = 0
     }
   }
 }
 
 var answer = Int.max
 
-// func bfs(_ chicken: [(Int, Int)]) -> Int {
-//   var chicken_arr = chicken
-//   var idx = 0
-//   var sum = 0
-  
-//   while idx < chicken_arr.count { //시간 줄이는 방법 (bfs)
-//     let (x, y) = chicken_arr[idx]
+func dfs(_ chicken: inout [(Int, Int)]) {
+  while !chicken.isEmpty {
+    let (x, y) = chicken.removeFirst()
 
-//     for (a, b) in house {
-//       sum += abs(x-a)+abs(y-b)
-//     }
-//     idx += 1
-//   }
+    for i in 0..<4 {
+      nx = x + dx[i]
+      ny = y + dy[i]
 
-//   return sum
-// }
+      guard 0..<n ~= nx && 0..<n ~= ny else { continue }
 
-//치킨집 좌표 조합
+      if copied[nx][ny] != 2 {
+        copied[nx][ny] = copied[x][y] + 1
+        chicken.append((nx, ny))
+        answer = min(answer, copied[nx][ny])
+      }
+    }
+  }
+}
+
 func combination(_ nums:[(Int, Int)], _ m:Int) -> [[(Int, Int)]] {
   var result:[[(Int, Int)]] = []
 
-  func combi(_ arr:[(Int, Int)], _ index: Int) {
+  func combi(_ arr:[(Int, Int)]) {
     if arr.count == m {
       result.append(arr)
       return
     }
 
-    for i in index..<nums.count {
-      combi(arr + [nums[i]], i+1)
+    for i in 0..<m {
+      combi(arr + [nums[i]])
     }
   }
-
-  combi([], 0)
-  
-  return result
 }
 
 for i in 1...m {
   var result = combination(chicken, i)
-  var sum = 0
-  
   for j in result {
-    for (a, b) in j {
-            for (x, y) in house {
-        sum += abs(a-x)+abs(b-y)
-      }
+    copied = board
+    for (x, y) in j {
+      copied[x][y] = 2
     }
-    answer = min(answer, sum)
+    dfs(j)
   }
 }
 

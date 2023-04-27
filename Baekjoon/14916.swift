@@ -3,9 +3,8 @@ import Foundation
 var n = Int(readLine()!)!
 var ans = 0
 while true {
-  if n%5 == 0 { //5로 나누어질 때까지 일단 계속 5로 나누기
+  if n>0 && n%5 == 0 { //5로 나누어질 때까지 일단 계속 5로 나누기
     ans += n/5
-    break
   }
   else {
     n -= 2
