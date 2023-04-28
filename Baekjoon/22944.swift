@@ -8,17 +8,17 @@ var ny = 0
 
 let input = readLine()!.split(separator:" ").map { Int(String($0))! }
 let n = input[0]
-var h = input[1]
-let d = input[2]
+let h = input[1] //체력
+let d = input[2] //내구도
 
 var board:[[String]] = []
-var visited = Array(repeating: Array(repeating: 0, count:n), count:n)
+var visited = Array(repeating: Array(repeating: 0, count:n), count:n) //방문했을 때의 체력을 담는 배열
 
 for _ in 0..<n {
   board.append(readLine()!.map { String($0) })
 }
 
-var q:[(Int, Int, Int, Int, Int)] = [] //차례대로 좌표, 체력, 
+var q:[(Int, Int, Int, Int, Int)] = [] //차례대로 좌표, 체력, 거리
 loop: for i in 0..<n {
   for j in 0..<n {
     if board[i][j] == "S" {
@@ -28,8 +28,6 @@ loop: for i in 0..<n {
     }
   }
 }
-
-var naegudo = 0
 
 func bfs() {
   var idx = 0
@@ -46,13 +44,13 @@ func bfs() {
       var nxtH = nowH
       var nxtD = nowD
 
-      if nxtD > 0 && board[nx][ny] == "." {
+      if nxtD > 0 && board[nx][ny] == "." { //우산 있음
         nxtD -= 1
       }
-      else if nxtD == 0 && board[nx][ny] == "." {
+      else if nxtD == 0 && board[nx][ny] == "." { //우산 없음 -> 체력 -1
         nxtH -= 1
       } 
-      else if board[nx][ny] == "U" {
+      else if board[nx][ny] == "U" { //우산 쓰고 비맞으므로 -1
         nxtD = d-1
       }
       else if board[nx][ny] == "E" {
@@ -60,8 +58,10 @@ func bfs() {
         exit(0) 
       }
 
-      if nxtH == 0 { continue }
-      if visited[nx][ny] < nxtH {
+      if nxtH == 0 { continue } //체력이 0인 경우는 탐색 X
+      if visited[nx][ny] < nxtH { 
+        //이거 안쓰면 시간초과 남
+        //체력이 현재 그 다음으로 나아갈 수 있을 경우에만 탐색하도록 조건을 검
         visited[nx][ny] = nxtH
         q.append((nx, ny, nxtH, nxtD, c+1))
       }
