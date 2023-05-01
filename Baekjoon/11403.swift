@@ -1,11 +1,10 @@
 import Foundation
 
 let n = Int(readLine()!)!
-var arr:[[Int]] = []
+var arr:[Int] = []
 
 for _ in 0..<n {
-  arr.append(readLine()!.split(separator:" ").map { Int(String($0))! })
-}
+  arr.append(readLine()!.split(separator:" ").map { Int(String($0))! }
 
 for k in 0..<n {
   for a in 0..<n {
@@ -15,12 +14,11 @@ for k in 0..<n {
       }
     }
   }
-}
 
 
 for a in 0..<n{
   for b in 0..<n{
-    print(arr[a][b], terminator: " ")
+    print(arr[a][b], terminator= " ")
   }
   print()
 }
