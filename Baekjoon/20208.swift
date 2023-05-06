@@ -1,69 +1,46 @@
+//시간초과 코드
 import Foundation
 
-let input = readLine()!.split(separator:" ").map { Int(String($0))! }
-let n = input[0], m = input[1], h = input[2]
-
-var dx = [-1, 1, 0, 0]
-var dy = [0, 0, -1, 1]
-
-var nx = 0
-var ny = 0
-
+let nmh = readLine()!.split(separator: " ").map { Int($0)! }
+let n = nmh[0], m = nmh[1], h = nmh[2] //마을 크기, 초기 체력, 증가하는 h양
 var board:[[Int]] = []
+
 for _ in 0..<n {
-  board.append(readLine()!.split(separator:" ").map { Int(String($0))! })
+  board.append(readLine()!.split(separator: " ").map { Int($0)! })
 }
 
-var house:(Int, Int) = (0, 0)
+var visited = Array(repeating: Array(repeating: false, count:n), count:n)
 
-loop: for i in 0..<n {
+var milks = [(Int, Int)]()
+var house = (0, 0)
+
+for i in 0..<n {
   for j in 0..<n {
     if board[i][j] == 1 {
       house = (i, j)
-      break loop
+    } else if board[i][j] == 2 {
+      milks.append((i, j))
     }
   }
 }
 
-var q = [(house.0, house.1, m, 0)] // x/y 좌표, 초기체력, 민초 개수
-var visited = Array(repeating: Array(repeating:0, count:n), count: n)
 var answer = 0
+//num: 초코우유 개수
+func dfs(_ num: Int, _ x: Int, _ y: Int, _ hp: Int) {
+  if hp - (abs(house.0-x) + abs(house.1-y)) >= 0 { //현재 체력으로 집으로 갈 수 있다면
+    answer = max(answer, num)
+  }
 
-func bfs(){
-  visited[house.0][house.1] = true
+  for (i, j) in milks {
+    if visited[i][j] { continue }
+    let diff = hp - (abs(x-i) + abs(y-j))
+    if diff < 0 { continue }
 
-  while !q.isEmpty {
-    let (x, y, curM, curC) = q.removeFirst()
-
-    for i in 0..<4 {
-      nx = x + dx[i]
-      ny = y + dy[i]
-
-      guard 0..<n ~= nx && 0..<n ~= ny else { continue }
-
-      var nxtM = curM
-      var nxtC = curC
-
-      if !visited[nx][ny] {
-        if board[nx][ny] == 0 {
-          nxtM -= 1
-        } else if board[nx][ny] == 2 {
-          nxtC += 1
-          nxtM += h - 1
-        }
-      }
-
-      if board[nx][ny] == 1 {
-        answer = max(answer, nxtC)
-      }
-
-      if nxtM == 0 { continue } //체력이 0이되는 순간 그 다음으로 이동할 수 없음
-
-      board[nx][ny] = nxtM
-      q.append((nx, ny, nxtM, nxtC))
-      
-    }
+    visited[i][j] = true
+    dfs(num+1, i, j, diff + h)
+    visited[i][j] = false
   }
 }
 
+dfs(0, house.0, house.1, m)
 print(answer)

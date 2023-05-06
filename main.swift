@@ -1,3 +1,4 @@
+//시간초과 코드
 import Foundation
 
 let nmh = readLine()!.split(separator: " ").map { Int($0)! }
@@ -7,6 +8,8 @@ var board:[[Int]] = []
 for _ in 0..<n {
   board.append(readLine()!.split(separator: " ").map { Int($0)! })
 }
+
+var visited = Array(repeating: false, count: 11) //초코우유 갯수 최대 11
 
 var milks = [(Int, Int)]()
 var house = (0, 0)
@@ -21,24 +24,23 @@ for i in 0..<n {
   }
 }
 
-var ans = 0
+var answer = 0
+//num: 초코우유 개수
+func dfs(_ num: Int, _ x: Int, _ y: Int, _ hp: Int) {
+  if hp - (abs(house.0-x) + abs(house.1-y)) >= 0 { //현재 체력으로 집으로 갈 수 있다면
+    answer = max(answer, num)
+  }
 
-func dfs(nx: Int, ny: Int, hp: Int, milk: Int) {
-  for (x, y) in milks {
-    if board[x][y] == 2 {
-      let dist = abs(nx - x) + abs(ny - y)
-      if dist <= hp { //이후에 더 나아갈 수 있다면 (체력이 남아있다면) 
-          board[x][y] = 0
-          dfs(nx: x, ny: y, hp: hp + h - dist, milk: milk + 1)
-          board[x][y] = 2
-      }
-    }
-}
+  for (k, v) in milks.enumerated() {
+    if visited[k] { continue }
+    let diff = hp - (abs(x-v.0) + abs(y-v.1))
+    if diff < 0 { continue }
 
-  if abs(nx - house.0) + abs(ny - house.1) <= hp {
-      ans = max(ans, milk)
+    visited[k] = true
+    dfs(num+1, v.0, v.1, diff + h)
+    visited[k] = false
   }
 }
 
-dfs(nx: house.0, ny: house.1, hp: m, milk: 0)
-print(ans)
+dfs(0, house.0, house.1, m)
+print(answer)
