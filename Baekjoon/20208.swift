@@ -1,4 +1,3 @@
-//시간초과 코드
 import Foundation
 
 let nmh = readLine()!.split(separator: " ").map { Int($0)! }
@@ -24,23 +23,49 @@ for i in 0..<n {
   }
 }
 
-var answer = 0
-//num: 초코우유 개수
-func dfs(_ num: Int, _ x: Int, _ y: Int, _ hp: Int) {
-  if hp - (abs(house.0-x) + abs(house.1-y)) >= 0 { //현재 체력으로 집으로 갈 수 있다면
-    answer = max(answer, num)
+if milks.isEmpty {
+  print(0)
+  exit(0)
+}
+
+func permutation(_ left:Int, _ right: Int){
+  if left == right {
+    simulation()
+    return
   }
 
-  for (i, j) in milks {
-    if visited[i][j] { continue }
-    let diff = hp - (abs(x-i) + abs(y-j))
-    if diff < 0 { continue }
-
-    visited[i][j] = true
-    dfs(num+1, i, j, diff + h)
-    visited[i][j] = false
+  for i in left...right {
+    milks.swapAt(i, left)
+    permutation(left+1, right)
+    milks.swapAt(i, left)
   }
 }
 
-dfs(0, house.0, house.1, m)
+var answer = 0
+//num: 초코우유 개수
+func simulation() {
+  var hp = m
+  var count = 0
+
+  var nx = house.0
+  var ny = house.1
+
+  for (i, j) in milks {
+    let dist = abs(nx-i) + abs(ny-j)
+    if hp - dist < 0 { return } //체력에서 민트초코간의 거리(민트초코로 이동하기 까지의 소모 체력)을 뺐을 때 떨어지면 찾는 경우의 수가 아니므로 백트랙
+
+    hp -= dist //잔여 체력
+    hp += h //민트초코 먹었으므로 +h
+    count += 1 //민트초코 개수 + 1
+
+    if hp >= abs(house.0-i) + abs(house.1-j) { //현재 체력으로 집으로 갈 수 있다면
+      answer = max(answer, count)
+    }
+
+    nx = i //그 다음 우유로 이동
+    ny = j
+  }
+}
+
+permutation(0, milks.count-1)
 print(answer)
