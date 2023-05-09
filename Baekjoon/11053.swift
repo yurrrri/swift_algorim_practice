@@ -12,7 +12,7 @@ func binarySearch(_ start: Int, _ end: Int, _ value: Int) -> Int {
   while s < e {
     m = (s + e) / 2
     if value <= answer[m] { e = m } //위치를 찾으려고 하는 값이 answer[m] 보다 작거나 같으면 end = middle
-    else { s = m + 1 }
+    else { s = m + 1 } //value가 더 큰수를 찾아나가는 과정
   }
   
   return s
