@@ -19,24 +19,22 @@ func bfs() {
   while !q.isEmpty {
     let x = q.removeFirst()
 
-    if x == 100 {
-      print(visited[100])
-      break
-    }
-
     for i in 1...6 {
       nx = x + i
       
-      guard 1...100 ~= nx && visited[nx] == 0 else { continue }
-
-      if board[nx] != 0 {
-        q.append(board[nx])
-      } else {
-        q.append(nx)
+      if nx >= 101 { //100번까지는 visited를 계산해야함
+        break
       }
-      visited[nx] = visited[x] + 1
+
+      let next_pos = board[nx] == 0 ? nx : board[nx]
+
+      if visited[next_pos] == 0 {
+        q.append(next_pos)
+        visited[next_pos] = visited[x] + 1
+      }
     }
   }
 }
 
 bfs()
+print(visited[100])
