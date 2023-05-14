@@ -13,4 +13,5 @@ switch n {
     print("D")
   default:
     print("F")
+  break
 }
