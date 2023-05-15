@@ -36,4 +36,4 @@ for i in 0..<arr.count {
 }
 
 print(answer.count)
-print(answer.map { String($0) }.joined(separator:" "))ㅋ
+print(answer.map { String($0) }.joined(separator:" "))
