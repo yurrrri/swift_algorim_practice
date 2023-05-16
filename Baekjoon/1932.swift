@@ -19,12 +19,12 @@ if n == 1 {
 for i in 1..<n { //두번째줄부터 시작
   for j in 0...i {
     if j == 0{
-      dp[i][0] = dp[i][0] + dp[i-1][0]
+      dp[i][0] += dp[i-1][0]
     }
     else if j == i {
-      dp[i][j] = dp[i][j] + dp[i-1][j-1]
+      dp[i][j] += dp[i-1][j-1]
     } else {
-      dp[i][j] = dp[i][j] + max(dp[i-1][j-1], dp[i-1][j])
+      dp[i][j] += max(dp[i-1][j-1], dp[i-1][j])
     }
   }
 }

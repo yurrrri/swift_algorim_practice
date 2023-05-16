@@ -1,27 +1,25 @@
 // //세트로 푼 경우
-func convertToMinute(str: String) -> Int {
-    let t = str.split(separator: ":").map{Int(String($0))!}
-    return t[0] * 60 + t[1]
+import Foundation
+
+let seq = readLine()!.split(separator:" ").map { String($0) }
+let s = seq[0], e = seq[1], q = seq[2]
+
+var enter = Set<String>()
+var exit = Set<String>()
+
+while let input = readLine()?.split(separator:" ").map { String($0) } {
+  if input.isEmpty {
+    break
+  }
+  if input[0] <= s {
+    enter.insert(input[1])
+  } else if e...q ~= input[0] {
+    exit.insert(input[1])
+  } 
 }
 
-let t = readLine()!.split(separator: " ").map{ convertToMinute(str: String($0)) }
-let (S,E,Q) = (t[0],t[1],t[2]) //각각의 시간 저장
-
-var enterSet: Set<String> = []
-var leaveSet: Set<String> = []
-
-while let input = readLine()?.split(separator: " ").map({String($0)}) {
-    let time = convertToMinute(str: input[0]) //input으로 들어온 시간 분으로 변환
-    let name = input[1]
-    
-    if (0...S).contains(time) {
-        enterSet.insert(name)
-    } else if (E...Q).contains(time) {
-        leaveSet.insert(name)
-    }
-}
-
-print(enterSet.intersection(leaveSet).count) //교집합 -> 조건에 맞게 들어옴과 동시에 떠난사람 교집합 구하기
+print(enter.intersection(exit).count)
+//교집합 -> 조건에 맞게 들어옴과 동시에 떠난사람 교집합 구하기
 
 //딕셔너리로 푼 경우
 let input = readLine()!.split(separator: " ").map{ String($0) }

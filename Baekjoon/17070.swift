@@ -38,8 +38,8 @@ func dfs(_ x: Int, _ y: Int, _ type: Type) {
       if board[x+1][y] != 1 {
           dfs(x+1, y, .ver)
       }
-    if y+1 < n {
-        if board[x][y+1] != 1 && board[x+1][y+1] != 1 && board[x+1][y] != 1 {
+      if y+1 < n {
+        if board[x][y+1] != 1 && board[x+1][y+1] != 1 && board[x+1][y] != 1 { //빈칸이어야한다고 색으로 표시된 영역
             dfs(x+1, y+1, .diag)
         }
       }
@@ -57,7 +57,7 @@ func dfs(_ x: Int, _ y: Int, _ type: Type) {
     }
     if x+1 < n {
       if board[x+1][y] != 1 {
-          dfs(x+1, y, .ver)
+        dfs(x+1, y, .ver)
       }
     }
   }
