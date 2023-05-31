@@ -27,27 +27,24 @@ print(4)
 
 //ver2 - DP
 let n = Int(readLine()!)!
-var dp = Array(repeating: 0, count:50001)
+var dp = Array(repeating: 0, count:50001) // n을 구하기 위한 최소 제곱수의 합
 
-func checkDouble(_ i: Int) -> Bool {
-  if floor(sqrt(Double(i))) == sqrt(Double(i)) {
-    return true
-  } else {
-    return false
-  }
+func isSquareNum(_ n: Int) -> Bool {
+    let root = Int(sqrt(Double(n))) //sqrt : 제곱근
+    return root * root == n ? true:false
 }
 
 for i in 1...n {
-  if checkDouble(i) {
-    dp[i] = 1 //제곱수이면 1이 최소값
+  if isSquareNum(i) {
+    dp[i] = 1
   } else {
-    var minValue = Int.max
     var j = 1
-    while j * j <= i { // 제곱했을 때 i의 범위를 벗어나지 않을 때,
-        minValue = min(minValue, dp[i - j * j]) //특정 제곱수를 뺐을 때의 값 중 최소값에 + 1
-        j += 1
+    var minValue = Int.max
+    while j*j <= i { // i를 넘지않는 제곱수를 계산한 값중에 + 1
+      minValue = min(minValue, dp[i-j*j])
+      j += 1
     }
-    dp[i] = minValue + 1 
+    dp[i] = minValue + 1
   }
 }
 
