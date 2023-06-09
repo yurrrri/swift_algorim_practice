@@ -1,21 +1,26 @@
-let N = Int(readLine()!)! //회의의 수
-var array:[[Int]] = []
-var end = 0
-var result = 0
+import Foundation
 
-for _ in 0...N-1
-{
- array.append(readLine()!.split(separator:" ").map{ Int($0)! })
+let n = Int(readLine()!)!
+var arr:[(Int, Int)] = []
+
+for _ in 0..<n {
+  let input = readLine()!.split(separator:" ").map { Int($0)! }
+  arr.append((input[0], input[1])) // 각각 시작시간, 끝나는 시간
 }
 
-array.sort(by: { $0[0] < $1[0] }) // 맨 먼저 시작하는거부터 정렬
-array.sort(by: { $0[1] < $1[1] }) // 끝나는 시간이 빠른것부터 정렬
+// 시작하는 시간 먼저, 빨리 끝나는 시간 먼저
+// var temp = arr.sorted(by: { $0.0 < $1.0 && $0.1 < $1.1 })
+// 이렇게 하면 안되는 이유: 위는 2가지 표현식을 모두 만족해야만 정렬을 하고, 아니면 정렬을 안하기 때문
+arr = arr.sorted(by: { $0.0 < $1.0 }).sorted(by: { $0.1 < $1.1 })
 
-for i in 0...N-1 {
-  if array[i][0] >= end {
-    result += 1
-    end = array[i][1]
+// print(arr)
+
+var stack = [arr[0]]
+
+for i in 1..<arr.count {
+  if arr[i].0 >= stack.last!.1 {  // 끝나자마자 시작할 수도 있으므로 >가 아닌 >=
+    stack.append(arr[i])
   }
 }
 
-print(result)
+print(stack.count)
