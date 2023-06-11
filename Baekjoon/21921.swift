@@ -5,18 +5,18 @@ let n = input[0], x = input[1]
 let arr = readLine()!.split(separator:" ").map { Int(String($0))! }
 
 var sum = 0
-var prefix_sum = [0]
+var stack_sum = [0]
 
 for i in arr {
   sum += i
-  prefix_sum.append(sum)
+  stack_sum.append(sum) // 누적합 구하기
 }
 
 var start = 0
-var temp:[Int] = []
+var prefix_sum:[Int] = []
 
 while start+x <= n {
-  temp.append(prefix_sum[start+x]-prefix_sum[start])
+  prefix_sum.append(stack_sum[start+x]-stack_sum[start]) // 구간합 구하기
   start += 1
 }
 
