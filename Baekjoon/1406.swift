@@ -1,8 +1,11 @@
 import Foundation
 
-var left = readLine()!
-var right = ""
+var left = readLine()! // 커서 왼쪽에 있는 수
+var right = "" // 커서 오른쪽에 있는 수
 let m = Int(readLine()!)!
+
+// left : y
+// right : cbax
 
 for _ in 0..<m {
     let cmd = readLine()!

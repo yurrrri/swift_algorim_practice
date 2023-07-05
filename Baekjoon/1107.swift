@@ -14,7 +14,7 @@ if m == 0 {   // 고장난 리모콘이 없을 때
 let broken = readLine()!.split(separator:" ").map { String($0) }
 var minValue = abs(100-n) // 현재가 100번이니까 100번에서 시작
 
-for i in 0...1000000 { 
+for i in 0...1000000 {
   //50만이 아니라 100만으로 하는 이유 -> https://seongonion.tistory.com/99 참고
   let str = String(i).map { String($0) }
   for j in 0..<str.count {

@@ -4,7 +4,7 @@ var board:[[Int]] = []
 var zeroCoord:[(Int, Int)] = []
 
 for _ in 0..<9 {
-  board.append(readLine()!.map { Int(String($0))! })
+  board.append(readLine()!.map { Int($0)! })
 }
 
 for i in 0..<9 {
@@ -49,7 +49,7 @@ func backtracking(_ depth: Int) {
   if depth == zeroCoord.count {   // 이미 0을 다 올바르게 채웠으면
     for i in 0..<9 {
       for j in 0..<9 {
-        print(board[i][j], terminator:"")
+        print(board[i][j])
       }
       print()
     }
