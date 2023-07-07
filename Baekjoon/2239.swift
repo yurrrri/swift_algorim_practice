@@ -10,7 +10,7 @@ for _ in 0..<9 {
 for i in 0..<9 {
   for j in 0..<9 {
     if board[i][j] == 0 {
-      zeroCoord.append((i, j))
+      zeroCoord.append((i, j)) // 0의 좌표
     }
   }
 }
