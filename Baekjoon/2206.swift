@@ -18,7 +18,7 @@ var result = -1
 
 func bfs() {
   var q = [(0, 0, 0)] //세번째 원소의 의미 : 벽을 부셨느냐 안부셨느냐
-  visited[0][0][0] = 1 // 첫번째는 1에서 시작하여 경로 셈
+  visited[0][0][0] = 1 // 방문처리
   var idx = 0
   
   while idx < q.count {
