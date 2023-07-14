@@ -2,7 +2,7 @@ import Foundation
 
 let n = Int(readLine()!)!
 var board:[[Int]] = []
-var visited = Array(repeating: Array(repeating: 0, count: n), count: n)
+var visited = Array(repeating: Array(repeating: 0, count: n), count: n)  // 영역을 구분짓기 위한 배열
 var count = 0
 var answer = 0
 
