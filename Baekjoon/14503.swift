@@ -1,68 +1,67 @@
-var input = readLine()!.split(separator:" ").map { Int(String($0))!}
-let N = input[0] //세로 크기
-let M = input[1] //가로 크기
+import Foundation
 
-input = readLine()!.split(separator:" ").map { Int(String($0))!}
-var x = input[0]
-var y = input[1]
-var direction = input[2] //방향
-var board:[[Int]] = []
-
-for _ in 0..<N {
-  board.append(readLine()!.split(separator:" ").map { Int(String($0))!})
-}
-
-let dx = [-1, 0, 1, 0] //차례대로 북, 동, 남, 서
+let dx = [-1, 0, 1, 0]  // 북동남서
 let dy = [0, 1, 0, -1]
 
-func rotate() {
-  direction -= 1
-  if direction == -1 {
-    direction = 3
-  }
+var board:[[Int]] = []
+
+var input = readLine()!.split(separator:" ").map { Int($0)! }
+let n = input[0], m = input[1] // 세로(x), 가로(y)
+input = readLine()!.split(separator:" ").map { Int($0)! }
+//(처음 로봇이 바라보는 방향) d: 0: 북 / 1: 동 / 2 : 남 / 3 : 서
+var nx = input[0], ny = input[1], d = input[2]
+
+for _ in 0..<n {
+  board.append(readLine()!.split(separator:" ").map { Int($0)! })
 }
 
-var nx = 0 //이동하는 좌표
-var ny = 0
-
-board[x][y] = 2 //현재 위치 청소
-var count = 1 //청소했으므로 1부터 시작
-var rotation_count = 0
+//2를 청소한 칸이라고 하고 탐색하기
+var answer = 0
+var tx = 0, ty = 0
 
 while true {
+  // 1. 아직 청소 안돼있으면
+  if board[nx][ny] == 0 {
+    answer += 1
+    board[nx][ny] = 2   // 청소
+  }
 
-    rotate()
-  
-    nx = x+dx[direction]
-    ny = y+dy[direction]
-    
-    if board[nx][ny] == 0 {
-        x = nx //전진
-        y = ny
-  
-        board[nx][ny] = 2 //청소
+  var clean_empty_count = 0
 
-        count += 1
-        rotation_count = 0
+  for i in 0..<4 { // 현재 칸의 주변 4칸 중에
+    tx = nx + dx[i]
+    ty = ny + dy[i]
+
+    guard 0..<n ~= tx && 0..<m ~= ty else { continue }
+
+    //처소되지 않은 빈칸 카운트
+    if board[tx][ty] == 0 { clean_empty_count += 1 }  
+  }
+
+  if clean_empty_count == 0 {  // 청소안된 빈칸이 없다면
+    tx = nx-dx[d]
+    ty = ny-dy[d]
+
+    if 0..<n ~= tx && 0..<m ~= ty && board[tx][ty] != 1 {  // 후진할 수 있다면 
+      nx = tx  // 후진
+      ny = ty
     }
     else {
-        rotation_count += 1 //회전하기만 하고 부딪힌 횟수 셈
+      break
     }
+  } else { // 청소되지 않은 빈칸이 있는 경우
+    if d == 0 { d = 3 } // 반시계 방향으로 회전
+    else { d -= 1 }
 
-    if rotation_count == 4 { //네 방향 모두 청소가 이미 됨
-      rotation_count = 0
-      nx = x - dx[direction]
-      ny = y - dy[direction]
+    tx = nx+dx[d]
+    ty = ny+dy[d]
 
-      if board[nx][ny] != 1 {
-        x = nx
-        y = ny
-      }
-      else{
-        break
-      }
+    if 0..<n ~= tx && 0..<m ~= ty && board[tx][ty] == 0 {   // 청소되지 않은 빈칸이면 한칸 전진
+      nx = tx   
+      ny = ty
     }
+  }
+  
 }
 
-print(count)
-
+print(answer)
