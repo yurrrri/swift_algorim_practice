@@ -1,16 +1,14 @@
-let N = Int(readLine()!)!
-var answer = Int.max
+import Foundation
 
-for i in 1...N {
-  let num = i + String(i).map { Int(String($0))! }.reduce(0, +)
-  if num == N {
-    answer = min(answer, i)
+let n = Int(readLine()!)!
+
+func simulation() -> Int {
+  for i in 1...1_000_000 {
+    if i + String(i).map { Int(String($0))! }.reduce(0, +) == n {
+      return i
+    }
   }
+  return 0
 }
 
-if answer == Int.max {
-  print(0)
-}
-else{
-  print(answer)
-}
+print(simulation())

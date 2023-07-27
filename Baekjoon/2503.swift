@@ -1,4 +1,4 @@
-//조합: 수의 순서가 바뀌면 서로 다른 수임
+// 순열 (123 != 321)
 func permute(_ nums: [Int], _ targetNum: Int) -> [[Int]] {
   var result = [[Int]]()
   var visited = [Bool](repeating: false, count: nums.count)
@@ -22,16 +22,17 @@ func permute(_ nums: [Int], _ targetNum: Int) -> [[Int]] {
   return result
 }
 
-let N = Int(readLine()!)!
+let n = Int(readLine()!)!
 var nums = permute([1, 2, 3, 4, 5, 6, 7, 8, 9], 3)
 var isSuccess = [Bool](repeating: true, count: nums.count)
+// 3자리 수 자연수마다 가능성이 있는지에 대한 여부를 각각 저장하기 위한 배열
 
-for _ in 0..<N {
+for _ in 0..<n {
   
   let input = readLine()!.split(separator:" ").map { Int(String($0))! }
   let callNum = String(input[0]).map { Int(String($0))! }, strike = input[1], ball = input[2]
 
-  for (index, num) in nums.enumerated() {
+  for (index, num) in nums.enumerated() {  // 3자리 수 모든 자연수 중 스트라이크, 볼이 일치하는지 각각 확인
       var checkStrike = 0
       var checkBall = 0
 
